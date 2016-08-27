@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<!-- 医生排班表：首先初始化日历，再根据数据库查出的值班信息在日历中标注出来 -->
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Doctor Schedule</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/css.css"/> 
+</head>
+
+<body>
+	<div class="container">
+		<div class="calender">
+			<div class="selectmouth">
+				<p  class="lastmonth"><</p>
+				<p><input type="text" class="selectdate" value="2016年8月" readonly=readonly /></p>
+				<p style="text-align:right" class="nextmonth">></p>
+			</div>
+			<!-- 医生值班表控件 -->
+			<div id="canlender" class="table-container"></div>
+		</div>
+	</div>
+	<script src="js/jquery.min.js" type="application/javascript" language="javascript">  </script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/js.js"></script>
+	<script type="text/javascript">
+	//数据库里查出的值班信息
+	var dutyDate=["2016-8-25","2016-8-26","2016-7-7"];
+	Calender.dutyinit(dutyDate,'#canlender');
+
+
+
+	</script>
+</body>
+</html>

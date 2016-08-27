@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    background-color: #DDD;
+    font-weight: 300;
+    font-size: 15px;
+    color: #333;
+    height: 100%;
+}
+.container {
+  width: 650px;
+  margin: 3% auto;
+  overflow: hidden;
+}
+.calender {
+  width: 100%;
+  overflow: hidden;
+}
+.selectmouth {
+  background-color: #db6969;
+  overflow: hidden;
+  padding: 2% 3%;
+  border-radius: 5px 5px 0 0;
+}
+.selectmouth p {
+  float: left;
+  width: 33%;
+  color: #FFF;
+  font-weight: 700;
+  cursor: pointer;
+}
+.selectmouth .selectdate {
+  width: 100%;
+  background-color:transparent;
+  border: none;
+  color: #FFF;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.3em;
+}
+.data_table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.data_table thead td {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #DDD;
+  border-collapse: collapse;
+  padding: 1% 0;
+}
+.data_table tbody td {
+  font-size: 1.4em;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 1% 0;
+}
+.data_table tbody td.orderdate {
+  color: #000;
+}
+.data_table tbody td.tdselect div{
+  color: #fff;
+  background-color: #db6969;
+  border-radius: 50%;
+  transform: scale(0.9);
+}
+.data_table tbody td.tdselect div:hover{
+  background-color: #C53838;
+}
+.table-container{
+  padding: 6%;
+  background-color: #f6f6f6;
+}

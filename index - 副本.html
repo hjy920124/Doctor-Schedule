@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<!-- 医生排班表：首先初始化日历，再根据数据库查出的值班信息在日历中标注出来 -->
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+ <title>Doctor Schedule</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="css/css.css"/> 
+</head>
+
+<body>
+ <div class="container">
+        <div class="calender">
+         <div class="selectmouth">
+             <p style="text-align:right" class="lastmonth"><</p>
+                <p><input type="text" class="selectdate" value="2016年8月" readonly=readonly /></p>
+                <p class="nextmonth">></p>
+            </div>
+         <table class="data_table" cellspacing="0px">
+              <thead>
+                  <tr>
+                       <td>日</td><td>一</td><td>二</td><td>三</td><td>四</td><td>五</td><td>六</td>
+                   </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>1</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+      <script src="js/jquery.min.js" type="application/javascript" language="javascript">  </script>
+                <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script>
+     window.onload=function(){  
+   var mydate=new Date();
+   var thisyear=mydate.getFullYear();
+   var thismonth=mydate.getMonth()+1;
+   var thisday=mydate.getDate();
+   var selectday=thisday;                     //标记日期                   //退房月份
+   var datetxt="datetoday";         
+   var datefirst;
+   var datesecond;
+   //////////////////////////////////////test jquery.fn.extend
+   (function($){
+$.fn.extend({
+  showtext:function(){
+   
+  }
+})
+   })(window.jQuery);
+   jQuery(".data_table tbody td").showtext();
+
+   ////////////////////////////////////////////////////
+   function initdata(){                           //日期初始填充
+    var tdheight=jQuery(".data_table tbody tr").eq(0).find("td").height();
+    jQuery(".data_table tbody td").css("height",tdheight);
+    
+    jQuery(".selectdate").val(thisyear+"年"+thismonth+"月");
+    
+    var days=getdaysinonemonth(thisyear,thismonth);
+    var weekday=getfirstday(thisyear,thismonth);
+    setcalender(days,weekday); 
+    var dutyDate=["2016-8-25","2016-8-26","2016-7-7"];
+    for (var i = 0; i < dutyDate.length; i++) {
+      var dateArr= dutyDate[i].split('-');
+      markdate(dateArr[0],dateArr[1],dateArr[2]); 
+    }
+   }
+
+   initdata();
+
+   
+   function markdate(dutyyear,dutymonth,dutyday){                           //标记日期
+    var datetxt=thisyear+"年"+thismonth+"月";
+    var dutydate=dutyyear+"年"+dutymonth+"月";
+ /*   jQuery(".data_table td").removeClass("tdselect");*/
+    if(datetxt==dutydate){
+     for(var j=0;j<6;j++){
+      for(var i=0;i<7;i++){
+       var tdhtml=jQuery(".data_table tbody tr").eq(j).find("td").eq(i).html();
+       if(tdhtml==dutyday){
+        jQuery(".data_table tbody tr").eq(j).find("td").eq(i).addClass("tdselect");
+       }
+      }
+     }
+    }
+   }
+   
+   function getdaysinonemonth(year,month){        //算某个月的总天数
+    month=parseInt(month);
+    //取得当前日期的下个月的第一天的前一天的日子；即这个月的最后一天的日子
+    var d=new Date(year,month,0);
+    return d.getDate();
+   }
+   
+   function getfirstday(year,month){              //算某个月的第一天是星期几
+    month=month-1;
+    var d=new Date(year,month,1);
+    return d.getDay();
+   }
+   
+   function setcalender(days,weekday){            //往日历中填入日期
+    var a=1;//日期
+    for(var j=0;j<6;j++){//六行
+     for(var i=0;i<7;i++){//七列
+      //1号之前的所有td
+      if(j==0&&i<weekday){
+       jQuery(".data_table tbody tr").eq(0).find("td").eq(i).html("");
+       jQuery(".data_table tbody tr").eq(0).find("td").eq(i).removeClass("usedate");
+      }else{
+       if(a<=days){
+        jQuery(".data_table tbody tr").eq(j).find("td").eq(i).html(a);
+        jQuery(".data_table tbody tr").eq(j).find("td").eq(i).addClass("usedate");
+        a++;
+       }else{
+        //超过了本月最后一天的部分
+        jQuery(".data_table tbody tr").eq(j).find("td").eq(i).html("");
+        jQuery(".data_table tbody tr").eq(j).find("td").eq(i).removeClass("usedate");
+        a=days+1;
+       }
+      }
+     }
+    }
+   }
+   
+    var  pop_title = '2016-8-5', pop_content = '您有排班';
+                $('.data_table').popover({
+                    delay: { show: 100, hide: 200 },//显示和隐藏的时间
+                    html: true,// 为true的话，会解析content里的html代码
+                    trigger: 'hover',//触发方式
+                    selector: 'td.tdselect',//目标对象
+                    placement: 'auto',//弹出提示的位置
+                    content: function() {
+                              return '您有排班哦';
+                               // return pop_content;
+                             },//这里可以直接写字符串，也可以 是一个函数，该函数返回一个字符
+                    title: function() {
+                                return $(this).html()+'日';
+                           },
+                    container: 'body'
+                });
+
+ function clear(){
+ jQuery(".data_table tbody tr td").removeClass("tdselect");
+ }
+   jQuery(".lastmonth").click(function(){                  //上一个月
+    thismonth--;
+    if(thismonth==0){
+     thismonth=12;
+     thisyear--;
+    }
+    clear();
+    initdata();
+   });
+   jQuery(".nextmonth").click(function(){                  //上一个月
+    thismonth++;
+    if(thismonth==13){
+     thismonth=1;
+     thisyear++;
+    }
+    clear();
+    initdata();
+   });
+   
+  }
+
+                 
+    </script>
+</body>
+</html>
